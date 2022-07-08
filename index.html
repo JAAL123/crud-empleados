@@ -86,6 +86,17 @@
         this.Agregar = function(){
             console.log(nombre.value);
             console.log(correo.value);
+
+            var datosEnviar={nombre:this.nombre.value,correo:this.correo.value}
+
+            fetch(url+"?insertar=1",{method:"POST", body:JSON.stringify(datosEnviar)})
+            .then(respuesta=>respuesta.json())
+            .then((datosRespuesta)=>{     
+                console.log("insertados")
+                this.Leer();       
+            })
+            .catch(console.log);
+
         };
     }
 
