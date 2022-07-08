@@ -47,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody id="empleados">
-                                      
+                             
                 </tbody>
             </table>            
         </div>
@@ -73,7 +73,7 @@
                         datos+="<td>"+empleado.id+"</td>";
                         datos+="<td>"+empleado.nombre+"</td>";     
                         datos+="<td>"+empleado.correo+"</td>";     
-                        datos+="<td>"+empleado.id+"</td>";                             
+                        datos+='<td>   <div class="btn-group" role="group" aria-label=""><button type="button" class="btn btn-info">Editar</button><button type="button" class="btn btn-danger" onclick="aplicacion.Eliminar('+empleado.id+')">Eliminar</button></div>'+'</td>';                             
                         datos+="</tr>"
                     }
                 );
@@ -97,6 +97,15 @@
             })
             .catch(console.log);
 
+        };
+        this.Eliminar = function(id){
+            console.log(id);
+            fetch(url+"?borrar="+id)
+            .then(respuesta=>respuesta.json())
+            .then((datosRespuesta)=>{                      
+                this.Leer();       
+            })
+            .catch(console.log);
         };
     }
 
