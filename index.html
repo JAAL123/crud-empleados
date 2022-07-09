@@ -95,8 +95,14 @@
     var url = "http://localhost/empleados/";    
     var modal = new bootstrap.Modal(document.getElementById('modelId'),{keyboard:false});
     var aplicacion = new function(){
+
         this.nombre = document.getElementById('nombre');
         this.correo = document.getElementById('correo');
+
+        this.idEditar = document.getElementById('idEditar');
+        this.nombreEditar = document.getElementById('nombreEditar');
+        this.correoEditar = document.getElementById('correoEditar');
+
         this.empleados = document.getElementById("empleados")        
         this.Leer = function(){
             var datos = "";
@@ -148,10 +154,30 @@
         };
         this.Editar = function(id){
             console.log(id);
+
+            fetch(url+"?consultar="+id)
+            .then(respuesta=>respuesta.json())
+            .then((datosRespuesta)=>{   
+                console.log(datosRespuesta);
+
+                this.nombreEditar.value = datosRespuesta[0]['nombre'];
+                this.idEditar.value = datosRespuesta[0]['id'];
+                this.correoEditar.value = datosRespuesta[0]['correo'];      
+            })
+
             modal.show();
         }
         this.Actualizar = function(){
-            console.log("Actualizar");
+            var datosEnviar={id:this.idEditar.value,nombre:this.nombreEditar.value,correo:this.correoEditar.value}
+
+            fetch(url+"?actualizar=1",{method:"POST", body:JSON.stringify(datosEnviar)})
+            .then(respuesta=>respuesta.json())
+            .then((datosRespuesta)=>{     
+                console.log("Actualizados")
+                this.Leer();      
+                modal.hide(); 
+            })
+            .catch(console.log);
         }
     }
 
