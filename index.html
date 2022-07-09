@@ -12,7 +12,45 @@
 <body>
  <div class="container">
     <br/>
-    <div class="row">
+    <div class="row">        
+        
+        <!-- Modal -->
+        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">         
+                    <form action="javascript:void(0);" method="post" onsubmit="aplicacion.Actualizar()">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Empleado</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                            <label for="idEditar" class="form-label">ID:</label>
+                            <input type="text"
+                                class="form-control" name="idEditar" id="idEditar" aria-describedby="helpId" placeholder="ID">                          
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre:</label>
+                                <input type="text"
+                                class="form-control" name="nombreEditar" id="nombreEditar" aria-describedby="helpId" placeholder="Nombre de Empleado">                          
+                            </div>
+    
+                            <div class="mb-3">
+                                <label for="correo class="form-label">Correo:</label>
+                                <input type="email" class="form-control" name="correoEditar" id="correoEditar" aria-describedby="emailHelpId" placeholder="Correo de empleado">                          
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Editar</button>
+                        </div>
+                    </form>    
+                </div>
+            </div>
+        </div>
+        
+
+
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
@@ -55,6 +93,7 @@
  </div>
  <script>
     var url = "http://localhost/empleados/";    
+    var modal = new bootstrap.Modal(document.getElementById('modelId'),{keyboard:false});
     var aplicacion = new function(){
         this.nombre = document.getElementById('nombre');
         this.correo = document.getElementById('correo');
@@ -73,7 +112,7 @@
                         datos+="<td>"+empleado.id+"</td>";
                         datos+="<td>"+empleado.nombre+"</td>";     
                         datos+="<td>"+empleado.correo+"</td>";     
-                        datos+='<td>   <div class="btn-group" role="group" aria-label=""><button type="button" class="btn btn-info">Editar</button><button type="button" class="btn btn-danger" onclick="aplicacion.Eliminar('+empleado.id+')">Eliminar</button></div>'+'</td>';                             
+                        datos+='<td>   <div class="btn-group" role="group" aria-label=""><button type="button" class="btn btn-info" onclick="aplicacion.Editar('+empleado.id+')">Editar</button><button type="button" class="btn btn-danger" onclick="aplicacion.Eliminar('+empleado.id+')">Eliminar</button></div>'+'</td>';                             
                         datos+="</tr>"
                     }
                 );
@@ -107,6 +146,13 @@
             })
             .catch(console.log);
         };
+        this.Editar = function(id){
+            console.log(id);
+            modal.show();
+        }
+        this.Actualizar = function(){
+            console.log("Actualizar");
+        }
     }
 
     aplicacion.Leer();
